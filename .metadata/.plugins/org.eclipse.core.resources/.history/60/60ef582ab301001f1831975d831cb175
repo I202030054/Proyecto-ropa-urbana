@@ -1,0 +1,50 @@
+package test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import model.Clientes;
+
+public class testClientes {
+
+	EntityManagerFactory emf= Persistence.createEntityManagerFactory("JPA_Urbana");
+	EntityManager em = emf .createEntityManager();
+	
+public testClientes() {}
+
+public void Insertar_Clientes() {
+		Clientes insertarClientes = new Clientes();
+		insertarClientes.setNombre("Anghela");
+		insertarClientes.setApellido("Salinas Aredo");
+		insertarClientes.setCorreo("123trapito.chikia@masnaa");
+		
+		em.getTransaction().begin();
+		em.persist(insertarClientes);
+		em.getTransaction().commit();
+	}
+ public void Actualizar_Productos() {
+	 em.getTransaction().begin();
+	 Productos actualizarProductos= em.find(Productos.class, 12);
+	 
+	 System.out.println("nombre"+ actualizarProductos.getNombre());
+	 System.out.println("descripcion"+ actualizarProductos.getDescripcion());
+	 actualizarProductos.setNombre("ropa de ejemplo");
+	 em.merge(actualizarProductos);
+	 em.getTransaction().commit();
+ }
+ 
+  public void Eliminar_Producto() {
+	  em.getTransaction().begin();
+	  Productos eliminarProductos = em.find(Productos.class , 15);
+	  System.out.println("id_producto" + eliminarProductos.getId_producto());
+	  System.out.println("nombre" + eliminarProductos.getNombre());
+	  em.remove(eliminarProductos);
+	  em.getTransaction().commit();
+	  } 
+	  public static void main(String[] args) {
+		  testProductos TestProductos = new 	testProductos();
+				TestProductos.Eliminar_Producto();
+	  }
+
+}

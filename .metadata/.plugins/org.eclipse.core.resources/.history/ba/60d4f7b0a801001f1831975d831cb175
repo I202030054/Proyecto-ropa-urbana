@@ -1,0 +1,66 @@
+package test;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import model.Productos;
+
+public class testProductos {
+
+	
+
+		EntityManagerFactory emf= Persistence.createEntityManagerFactory("JPA_Urbana");
+		EntityManager em = emf .createEntityManager();
+		
+	public testProductos() {}
+
+	public void Insertar_Productos() {
+			Productos insertarProductos = new Productos();
+			insertarProductos.setNombre("Pantalon azul");
+			insertarProductos.setDescripcion("pantalon vaquero");
+			insertarProductos.setPrecio(40.20);
+			
+			em.getTransaction().begin();
+			em.persist(insertarProductos);
+			em.getTransaction().commit();
+		}
+	 public void Actualizar_Productos() {
+		 em.getTransaction().begin();
+		 Productos actualizarProductos= em.find(Productos.class, 12);
+		 
+		 System.out.println("nombre"+ actualizarProductos.getNombre());
+		 System.out.println("descripcion"+ actualizarProductos.getDescripcion());
+		 actualizarProductos.setNombre("ropa de ejemplo");
+		 em.merge(actualizarProductos);
+		 em.getTransaction().commit();
+	 }
+	 
+	 
+	  public static void main(String[] args) {
+		  testProductos TestProductos = new 	testProductos();
+				TestProductos.Actualizar_Productos();
+	  }
+	  public void Eliminar_Producto() {
+		  em.getTransaction().begin();
+		  Productos eliminarProductos = em.find(Productos.class , 12);
+		  System.out.println("cod_usua" + eliminarProductos.getNombre());
+		  System.out.println("nom_usua" + eliminarProductos.getDescripcion());
+		  em.remove(eliminarProductos);
+		  }
+		  public void Listar_Producto() {
+		  List<Productos> listarProducto = em.createQuery("SELECT FROM nombre, descripcion FROM ropa_urbana.productos", Productos.class).getResultList();
+		  System.out.println("Productos: " + listarProducto.size() );
+		  for(Productos pro:listarProducto) {
+		  System.out.println("Productos: " + pro);
+		  }
+		  }
+	  
+	  
+	}
+
+
+
+

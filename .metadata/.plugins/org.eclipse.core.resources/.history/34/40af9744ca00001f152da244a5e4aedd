@@ -1,0 +1,66 @@
+package test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import model.Productos;
+
+public class testProductos {
+
+	
+
+		EntityManagerFactory emf= Persistence.createEntityManagerFactory("JPA_Urbana");
+		EntityManager em = emf .createEntityManager();
+		
+	public testProductos() {}
+
+	public void Insertar_Productos() {
+			Productos insertarProductos = new Productos();
+			insertarProductos.setNombre("Pantalon azul");
+			insertarProductos.setDescripcion("pantalon vaquero");
+			insertarProductos.setPrecio(40.20);
+			
+			em.getTransaction().begin();
+			em.persist(insertarProductos);
+			em.getTransaction().commit();
+		}
+	 public void Actualizar_Productos() {
+		 em.getTransaction().begin();
+		 Productos actualizarProductos= em.find(Productos.class, 2);
+		 
+		 System.out.println("nombre"+ actualizarProductos.getNombre());
+		 System.out.println("descripcion"+ actualizarProductos.getDescripcion());
+		 actualizarProductos.setNombre("ropa de ejemplo");
+		 em.merge(actualizarProductos);
+		 em.getTransaction().commit();
+	 }
+	 
+	 
+	  public static void main(String[] args) {
+		  testProductos TestProductos = new 	testProductos();
+				TestProductos.Actualizar_Productos();
+	  }
+	  
+	  
+	  
+	  public void Eliminar_Usuario() {
+		  em.getTransaction().begin();
+		  Usuario eliminarUsuario = em.find(Usuario.class , 2);
+		  System.out.println("cod_usua" + eliminarUsuario.getCodigo());
+		  System.out.println("nom_usua" + eliminarUsuario.getNombre());
+		  em.remove(eliminarUsuario);
+		  }
+		  public void Listar_Usuario() {
+		  List<Usuario> listarUsuario = em.createQuery("SELECT cod_usua, nom_usua
+		  FROM ciberfarmadawi.usuarios", Usuario.class).getResultList();
+		  System.out.println("Numero de usuarios: " + listarUsuario.size() );
+		  for(Usuario us:listarUsuario) {
+		  System.out.println("Usuario: " + us);
+		  }
+		  }
+	}
+
+
+
+
